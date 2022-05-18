@@ -1,4 +1,4 @@
 Flask==1.1.2
 Flask_RESTful==0.3.9
 requests==2.24.0
-setuptools==50.3.1.post20201107
+setuptools==50.3.1
