@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2'
 import Chart from 'chart.js/auto';
-
+import zoomPlugin from 'chartjs-plugin-zoom';
 
 function App() {
   const [query, setQuery] = useState({
-    ticker:'', startdate:'', enddate:'', freq:5, init_amnt:1, rec_amnt:0
+    ticker:'', startdate:'', enddate:'', freq:'', init_amnt:'', rec_amnt:''
   })
 
   const [series, setSeries] = useState([])
@@ -43,11 +43,28 @@ function App() {
       {
         labels: series.data.map((data) => data.date),
         datasets: [{
-          label: "Close Price",
-          data: series.data.map((data) => data.close),
+          label: "Total Value",
+          data: series.data.map((data) => data.value),
           backgroundColor: ['green']
-        }]
-      } : 
+        },
+        {
+          label: "Stock Price",
+          data: series.data.map((data) => data.close),
+          backgroundColor: ['blue']
+        },
+        {
+          label: "Total Investment",
+          data: series.data.map((data) => data.invested),
+          backgroundColor: ['orange']
+        },
+        {
+          label: "Holdings",
+          data: series.data.map((data) => data.holdings),
+          backgroundColor: ['purple']
+        }
+        ]
+      }
+       : 
       { 
       labels: [],
       datasets: []
@@ -62,15 +79,15 @@ function App() {
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
-        <input placeholder='ticker' onChange={(e) => setQuery({...query, ticker: e.target.value})} />
-        <input placeholder='start date (YYYYMMDD)' onChange={(e) => setQuery({...query, startdate: e.target.value})} />
-        <input placeholder='end date (YYYYMMDD)' onChange={(e) => setQuery({...query, enddate: e.target.value})} />
-        <input placeholder='initial investment' onChange={(e) => setQuery({...query, init_amnt: e.target.value})} />
-        <input placeholder='recurring investment' onChange={(e) => setQuery({...query, rec_amnt: e.target.value})} />
-        <input placeholder='frequency of recurring (days)' onChange={(e) => setQuery({...query, freq: e.target.value})} />
+        <input class="form-text" placeholder='ticker' onChange={(e) => setQuery({...query, ticker: e.target.value})} />
+        <input class="form-text" placeholder='start date (YYYYMMDD)' onChange={(e) => setQuery({...query, startdate: e.target.value})} />
+        <input class="form-text" placeholder='end date (YYYYMMDD)' onChange={(e) => setQuery({...query, enddate: e.target.value})} />
+        <input class="form-text" placeholder='initial investment' onChange={(e) => setQuery({...query, init_amnt: e.target.value})} />
+        <input class="form-text" placeholder='recurring investment' onChange={(e) => setQuery({...query, rec_amnt: e.target.value})} />
+        <input class="form-text" placeholder='frequency of recurring (days)' onChange={(e) => setQuery({...query, freq: e.target.value})} />
         <button>Click me</button>
       </form>
-      { series.status === 200 ? <div style={{width: 900}}>
+      { series.status === 200 ? <div class="graph" style={{width: 900}}>
         <Line data={userData} />
       </div>
       : ''}
