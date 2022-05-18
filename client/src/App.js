@@ -26,11 +26,11 @@ function App() {
     datasets: []
   })
 
-  const backtest_path = 'http://127.0.0.1:5000/'
+  const backtest_path = 'http://stock-backtest.herokuapp.com'
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const url = `${backtest_path}${query.ticker}/${query.startdate}/${query.enddate}/${query.freq}/${query.init_amnt}/${query.rec_amnt}`;
+    const url = `${backtest_path}/${query.ticker}/${query.startdate}/${query.enddate}/${query.freq}/${query.init_amnt}/${query.rec_amnt}`;
     axios.get(url).then(res => {
       console.log("SUCCESS", res);
       setSeries(res) ;
