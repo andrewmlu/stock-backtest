@@ -26,7 +26,7 @@ function App() {
     datasets: []
   })
 
-  const backtest_path = 'http://stock-backtest.herokuapp.com'
+  const backtest_path = 'https://stock-backtest.herokuapp.com'
 
   const handleSubmit = (e) => {
     e.preventDefault();
